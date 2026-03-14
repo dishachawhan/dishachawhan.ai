@@ -1,0 +1,64 @@
+board = [" "] * 9
+
+def display():
+    print()
+    for row in range(0, 9, 3):
+        print(board[row], "|", board[row+1], "|", board[row+2])
+    print()
+
+def win(player):
+    w = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+    return any(board[a]==board[b]==board[c]==player  for a,b,c in w)
+
+def full():
+    return " " not in board
+
+def available_moves():
+    return [row for row in range(9) if board[row]==" "]
+
+def evaluate(ai):
+    if win("O"): return 1
+    if win("X"): return -1
+    if full(): return 0
+
+    scores = []
+    for move in available_moves():
+        board[move] = "O" if ai else "X"
+        scores.append(evaluate(not ai))
+        board[move] = " "
+    return max(scores) if ai else min(scores)
+
+def ai_move():
+    best_score, best_move = -2, None
+    for move in available_moves():
+        board[move] = "O"
+        score = evaluate(False)
+        board[move] = " "
+        if score > best_score:
+            best_score, best_move = score, move
+    board[best_move] = "O"
+
+def play():
+    display()
+    while True:
+        move = int(input("Enter position (0-8): "))
+        if board[move] != " ": continue
+        board[move] = "X"
+        display()
+        if win("X"):
+            print("You win")
+            break
+        if full():
+            print("Draw")
+            break
+
+        ai_move()
+        display()
+        if win("O"):
+            print("AI wins")
+            break
+        if full():
+            print("Draw")
+            break
+
+play()
