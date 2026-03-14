@@ -1,0 +1,54 @@
+parent(raja, prasanna).
+parent(rani, prasanna).
+parent(prasanna, disha).
+parent(sushma, disha).
+parent(prasanna, kanchan).
+parent(sushma, kanchan).
+% Gender information
+male(prasanna).
+male(raja).
+female(disha).
+female(sushma).
+female(kanchan).
+female(rani).
+% Marriage relationship
+wife(sushma, prasanna).
+husband(prasanna, sushma).
+% -------- RULES --------
+% Father
+father(X, Y) :-
+parent(X, Y),
+male(X).
+% Mother
+mother(X, Y) :-
+parent(X, Y),
+
+female(X).
+% Child
+child(X, Y) :-
+parent(Y, X).
+% Son
+son(X, Y) :-
+child(X, Y),
+male(X).
+% Daughter
+daughter(X, Y) :-
+child(X, Y),
+female(X).
+% Sibling
+sibling(X, Y) :-
+parent(Z, X),
+parent(Z, Y),
+X \= Y.
+% Grandparent
+grandparent(X, Y) :-
+parent(X, Z),
+parent(Z, Y).
+% Grandfather
+grandfather(X, Y) :-
+grandparent(X, Y),
+male(X).
+% Grandmother
+grandmother(X, Y) :-
+grandparent(X, Y),
+female(X).
