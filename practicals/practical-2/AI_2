@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int jug1Cap, jug2Cap, goal;
+int visited[101][101];
+
+void solve(int jugA, int jugB) {
+    if (visited[jugA][jugB]) return;
+    visited[jugA][jugB] = 1;
+
+    printf("(%d, %d)\n", jugA, jugB);
+
+    if (jugA == goal) {
+        printf("Goal reached\n");
+        return;
+    }
+
+    if (jugA < jug1Cap) solve(jug1Cap, jugB);
+    if (jugB < jug2Cap) solve(jugA, jug2Cap);
+    if (jugA > 0) solve(0, jugB);
+    if (jugB > 0) solve(jugA, 0);
+
+    int pour;
+
+    pour = (jugA + jugB <= jug1Cap) ? jugB : jug1Cap - jugA;
+    solve(jugA + pour, jugB - pour);
+
+    pour = (jugA + jugB <= jug2Cap) ? jugA : jug2Cap - jugB;
+    solve(jugA - pour, jugB + pour);
+}
+
+int main() {
+    printf("Enter capacity of jug A: ");
+    scanf("%d", &jug1Cap);
+
+    printf("Enter capacity of jug B: ");
+    scanf("%d", &jug2Cap);
+
+    printf("Enter goal amount in jug A: ");
+    scanf("%d", &goal);
+
+    solve(0, 0);
+    return 0;
+}
