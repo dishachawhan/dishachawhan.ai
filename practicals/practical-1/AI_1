@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void generateMagicSquare(int order) {
+    int magicSquare[order][order];
+    for (int row = 0; row < order; row++) {
+        for (int col = 0; col < order; col++) {
+            magicSquare[row][col] = 0;
+        }
+    }
+
+    int row = 0;
+    int col = order / 2;
+
+    for (int value = 1; value <= order * order; value++) {
+        if (row < 0 && col == order) {
+            row = 0;
+            col = order - 2;
+        } else {
+            if (row < 0) row = order - 1;  
+            if (col == order) col = 0;  
+        }
+
+        if (magicSquare[row][col]) {
+            row++;
+        }
+       
+        magicSquare[row][col] = value;
+
+        row--;
+        col++;
+    }
+
+    printf("The Magic Square of order %d (Magic Constant: %d):\n", order, order * (order * order + 1) / 2);
+    for (row = 0; row < order; row++) {
+        for (col = 0; col < order; col++) {
+            printf("%4d ", magicSquare[row][col]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int order;
+    printf("Enter the size of the magic square (must be an odd number): ");
+    scanf("%d", &order);
+
+    if (order % 2 == 0) {
+        printf("Magic square construction with this algorithm only works for odd sizes.\n");
+        return 1;
+    }
+
+    generateMagicSquare(order);
+
+    return 0;
+}
+
