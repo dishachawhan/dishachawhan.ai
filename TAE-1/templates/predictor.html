@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Traffic Predictor</title>
+<link rel="stylesheet" href="/static/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<a href="/" class="home-btn">← Back to Home</a>
+
+<h1>Traffic Congestion Predictor</h1>
+
+<div class="grid">
+
+<div class="card">
+
+<h2>Enter Vehicle Data</h2>
+
+<form method="POST">
+
+<label>Bikes</label>
+<input type="number" name="bikes" required>
+
+<label>Cars</label>
+<input type="number" name="cars" required>
+
+<label>Buses</label>
+<input type="number" name="buses" required>
+
+<label>Trucks</label>
+<input type="number" name="trucks" required>
+
+<button type="submit">Predict Traffic</button>
+
+</form>
+
+{% if result %}
+
+<div class="result">
+
+<h3>Traffic Status: {{ result }}</h3>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+<div class="card">
+
+<h2>Traffic Trend</h2>
+
+<canvas id="trafficChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const ctx = document.getElementById('trafficChart');
+
+new Chart(ctx, {
+type: 'line',
+data: {
+labels: {{ times | tojson }},
+datasets: [{
+label: 'Vehicle Flow',
+data: {{ values | tojson }},
+borderColor: 'blue',
+fill: false,
+tension: 0.3
+}]
+}
+});
+
+</script>
+
+</body>
+</html>

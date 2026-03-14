@@ -1,0 +1,115 @@
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f9;
+}
+
+/* HOME PAGE */
+
+.hero{
+height:100vh;
+
+background:
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+url("https://images.unsplash.com/photo-1506521781263-d8422e82f27a");
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.overlay{
+text-align:center;
+color:white;
+padding:60px;
+max-width:700px;
+}
+
+.overlay h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.overlay p{
+font-size:20px;
+margin-bottom:30px;
+}
+
+.btn{
+background:#ff9800;
+padding:15px 25px;
+color:white;
+text-decoration:none;
+font-size:18px;
+border-radius:5px;
+}
+
+/* DASHBOARD PAGE */
+
+.dashboard{
+padding:40px;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:8px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+input{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#2196f3;
+color:white;
+border:none;
+border-radius:4px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1976d2;
+}
+
+.result{
+margin-top:15px;
+background:#e3f2fd;
+padding:10px;
+border-radius:5px;
+}
+
+/* HOME BUTTON ON PREDICTOR PAGE */
+
+.home-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#444;
+color:white;
+padding:8px 15px;
+border-radius:4px;
+font-size:14px;
+}
+
+.home-btn:hover{
+background:#222;
+}
