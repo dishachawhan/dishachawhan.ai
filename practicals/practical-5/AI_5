@@ -1,0 +1,41 @@
+import itertools
+
+def solve_cryptarithmetic(word1, word2, result):
+    unique_letters = list(set(word1 + word2 + result))
+    if len(unique_letters) > 10:
+        print("Too many unique letters (max 10).")
+        return None
+
+    for perm in itertools.permutations(range(10), len(unique_letters)):
+        mapping = dict(zip(unique_letters, perm))
+
+        if mapping[word1[0]] == 0 or mapping[word2[0]] == 0 or mapping[result[0]] == 0:
+            continue
+
+        val1 = sum(mapping[letter] * 10**i for i, letter in enumerate(reversed(word1)))
+        val2 = sum(mapping[letter] * 10**i for i, letter in enumerate(reversed(word2)))
+        val_res = sum(mapping[letter] * 10**i for i, letter in enumerate(reversed(result)))
+
+        if val1 + val2 == val_res:
+            return mapping, val1, val2, val_res
+
+    return None
+
+if __name__ == "__main__":
+    first_word = input("Enter first word: ").upper()
+    second_word = input("Enter second word: ").upper()
+    result_word = input("Enter result word: ").upper()
+
+
+    solution = solve_cryptarithmetic(first_word, second_word, result_word)
+
+    if solution:
+        assignment, val1, val2, val_res = solution
+        print(f"Assignment: {assignment}")
+        print("\nSolution:")
+        print(f"  {val1} ({first_word})")
+        print(f"+ {val2} ({second_word})")
+        print("--------------")
+        print(f" {val_res} ({result_word})")
+    else:
+        print("No solution found.")
