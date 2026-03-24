@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+datasets = {
+    "Set 1": np.array([[1, 30], [2, 40], [3, 50], [4, 60], [5, 80]]),
+    "Set 2": np.array([[1, 25], [2, 35], [3, 45], [4, 55], [5, 70]]),
+    "Set 3": np.array([[1, 20], [2, 30], [3, 40], [4, 50], [5, 65]])
+}
+
+colors = ['blue', 'green', 'red']
+
+for (label, data), color in zip(datasets.items(), colors):
+    X = data[:, 0].reshape(-1, 1)
+    y = data[:, 1]
+
+    model = LinearRegression()
+    model.fit(X, y)
+
+    x_range = np.linspace(X.min(), X.max() + 2, 100).reshape(-1, 1)
+    y_range = model.predict(x_range)
+
+    plt.plot(X, y, marker='o', color=color, label=f"{label} Data")
+    plt.plot(x_range, y_range, linestyle='--', color=color, label=f"{label} Regression")
+
+plt.xlabel("Study Hours")
+plt.ylabel("Marks")
+plt.title("Multiple Linear Regression Lines")
+plt.legend()
+plt.show()
