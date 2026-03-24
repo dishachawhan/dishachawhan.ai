@@ -1,0 +1,97 @@
+import copy
+
+BOARD_SIZE = 8
+
+def create_board():
+    board = [[0]*BOARD_SIZE for _ in range(BOARD_SIZE)]
+    for i in range(3):
+        for j in range(BOARD_SIZE):
+            if (i + j) % 2 == 1:
+                board[i][j] = 1   
+    for i in range(5, 8):
+        for j in range(BOARD_SIZE):
+            if (i + j) % 2 == 1:
+                board[i][j] = -1  
+    return board
+
+def print_board(board):
+    for row in board:
+        print(row)
+    print()
+
+def get_moves(board, player):
+    moves = []
+    direction = 1 if player == 1 else -1
+    
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            if board[i][j] == player:
+                for dj in [-1, 1]:
+                    ni, nj = i + direction, j + dj
+                    if 0 <= ni < BOARD_SIZE and 0 <= nj < BOARD_SIZE:
+                        if board[ni][nj] == 0:
+                            new_board = copy.deepcopy(board)
+                            new_board[i][j] = 0
+                            new_board[ni][nj] = player
+                            moves.append(new_board)
+    return moves
+
+def evaluate(board):
+    return sum(sum(row) for row in board)
+
+def minimax(board, depth, alpha, beta, maximizing):
+    if depth == 0:
+        return evaluate(board), board
+
+    player = 1 if maximizing else -1
+    moves = get_moves(board, player)
+
+    if not moves:
+        return evaluate(board), board
+
+    best_move = None
+
+    if maximizing:
+        max_eval = float('-inf')
+        for move in moves:
+            eval_score, _ = minimax(move, depth-1, alpha, beta, False)
+            if eval_score > max_eval:
+                max_eval = eval_score
+                best_move = move
+            alpha = max(alpha, eval_score)
+            if beta <= alpha:
+                break
+        return max_eval, best_move
+
+    else:
+        min_eval = float('inf')
+        for move in moves:
+            eval_score, _ = minimax(move, depth-1, alpha, beta, True)
+            if eval_score < min_eval:
+                min_eval = eval_score
+                best_move = move
+            beta = min(beta, eval_score)
+            if beta <= alpha:
+                break
+        return min_eval, best_move
+
+def play():
+    board = create_board()
+    
+    while True:
+        print_board(board)
+
+        print("Your move (row col to row col): ")
+        x1, y1, x2, y2 = map(int, input().split())
+
+        if board[x1][y1] == -1 and board[x2][y2] == 0:
+            board[x1][y1] = 0
+            board[x2][y2] = -1
+        else:
+            print("Invalid move")
+            continue
+
+        print("AI thinking...")
+        _, board = minimax(board, 3, float('-inf'), float('inf'), True)
+
+play()
